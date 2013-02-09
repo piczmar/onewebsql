@@ -1,16 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
     <script src='<c:url value="/bootstrap/js/bootstrap.min.js" />'></script>
     <script src='<c:url value="/js/common.js" />'></script>
-    <link rel="stylesheet" type="text/css" href='<c:url value="/bootstrap/css/bootstrap-responsive.min.css" />'/>
-    <link rel="stylesheet" type="text/css" href='<c:url value="/bootstrap/css/bootstrap.min.css" />'/>
-    <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css" />'/>
+    <link rel="stylesheet" type="text/css" href='<c:url value="/bootstrap/css/bootstrap-responsive.min.css" />' />
+    <link rel="stylesheet" type="text/css" href='<c:url value="/bootstrap/css/bootstrap.min.css" />' />
+    <link rel="stylesheet" type="text/css" href='<c:url value="/css/style.css" />' />
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -29,19 +29,27 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="#">OneWebSQL Demo</a>
-
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <c:url value="/index.htm" var="homeUrl"/>
                     <li class="active"><a href="${homeUrl}">Home</a></li>
+                    <c:if test='<%=session.getAttribute("userId")!=null%>'>
 
-                    <c:url value="#" var="loginUrl"/>
-                    <li class="active"><a href="${loginUrl}">Login</a></li>
+                        <c:url value="/task/viewUserTasks.htm" var="listUrl"/>
+                        <li class="active"><a href="${listUrl}">My Tasks</a></li>
+                        <c:url value="/user/logout.htm" var="logoutUrl"/>
+                        <li class="active"><a href="${logoutUrl}">Logout</a></li>
+                        <li class="active"><a>| Logged in as: <%=session.getAttribute("userLogin")%></a></li>
+
+                    </c:if>
+                    <c:if test='<%=session.getAttribute("userId")==null%>'>
+                        <c:url value="/user/login.htm" var="loginUrl"/>
+                        <li class="active"><a href="${loginUrl}">Login</a></li>
+                    </c:if>
 
                 </ul>
 
-            </div>
-            <!--/.nav-collapse -->
+            </div><!--/.nav-collapse -->
         </div>
     </div>
 </div>

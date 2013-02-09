@@ -16,6 +16,7 @@
         users
         can mark his tasks with 'Likes' similarly as on FaceBook.</p>
 
+    <jsp:include page="task/_showTasksReadOnly.jsp"/>
 
 </div>
 <jsp:include page="common/footer.jsp"/>

@@ -23,6 +23,23 @@
 			<url>http://maven.springframework.org/milestone</url>
 		</repository>
 
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <id>EclipseLink Repo</id>
+            <name>EclipseLink (Moxy) Repository</name>
+            <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+            <layout>default</layout>
+        </repository>
+
 	</repositories>
 
 	<build>
@@ -75,10 +92,90 @@
 				</configuration>
 			</plugin>
 
-		</plugins>
+            <plugin>
+                <groupId>com.onewebsql</groupId>
+                <artifactId>maven-onewebsql-db2java-plugin</artifactId>
+                <version>1.0.3</version>
+                <dependencies>
+                    <!-- JDBC driver -->
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.1-901.jdbc4</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>common</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <!--http://onewebsql.com/docs/1_0_x/official/db2java-guide/db2java-guide.html-->
+                        <configuration>
+                            <jdbc_url>jdbc:postgresql://localhost:5432/onewebsql</jdbc_url>
+                            <connection_properties>
+                                <property>
+                                    <name>user</name>
+                                    <value>postgres</value>
+                                </property>
+                                <property>
+                                    <name>password</name>
+                                    <value>secret</value>
+                                </property>
+                            </connection_properties>
+                            <schemas>
+                                <param>PUBLIC</param>
+                            </schemas>
+                            <java_default_package>com.generated.onewebsql</java_default_package>
+                            <jdbc_driver>org.postgresql.Driver</jdbc_driver>
+                            <!--model_properties>src/main/resources/model.properties</model_properties-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
+		</plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                        only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.onewebsql</groupId>
+                                        <artifactId>
+                                            maven-onewebsql-db2java-plugin
+                                        </artifactId>
+                                        <versionRange>[1.0.3,)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 	</build>
 	<dependencies>
+
+        <dependency>
+            <groupId>com.onewebsql</groupId>
+            <artifactId>onewebsql-runtime</artifactId>
+            <version>1.0.3</version>
+        </dependency>
 
 		<!--Spring Framework -->
 		<dependency>
